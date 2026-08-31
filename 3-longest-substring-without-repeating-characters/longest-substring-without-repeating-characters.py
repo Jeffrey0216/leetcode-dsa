@@ -8,6 +8,6 @@ class Solution:
                 sett.remove(s[left])
                 left += 1
             sett.add(s[right])
-            res = max(res, right - left + 1)
+            res = max(res,right - left + 1)
         return res
 
