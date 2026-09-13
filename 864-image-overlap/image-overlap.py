@@ -1,23 +1,18 @@
 class Solution:
-    def largestOverlap(self, img1, img2):
+    def largestOverlap(self, img1: List[List[int]], img2: List[List[int]]) -> int:
+        img1_points, img2_points = [], []
+        d = defaultdict(int)
+
         n = len(img1)
-        ans = 0
+        for r in range(n):
+            for c in range(n):
+                if img1[r][c]:
+                    img1_points.append((r, c))
+                if img2[r][c]:
+                    img2_points.append((r, c))
 
-        for row in range(-n + 1, n):
-            for col in range(-n + 1, n):
+        for r_1, c_1, in img1_points:
+            for r_2, c_2 in img2_points:
+                d[(r_2 - r_1, c_2 - c_1)] += 1
 
-                count = 0
-
-                for i in range(n):
-                    for j in range(n):
-
-                        ni = i + row
-                        nj = j + col
-
-                        if 0 <= ni < n and 0 <= nj < n:
-                            if img1[i][j] == 1 and img2[ni][nj] == 1:
-                                count += 1
-
-                ans = max(ans, count)
-
-        return ans
+        return max(d.values() or [0])
