@@ -5,8 +5,7 @@ class Solution:
         for ch in s:
             if ch == "(":
                 depth += 1
-                maxdepth = max(maxdepth, depth)
-            if ch == ")":
+                maxdepth = max(maxdepth,depth)
+            elif ch == ")":
                 depth -= 1
         return maxdepth
-        
