@@ -1,22 +1,23 @@
 class Solution:
     def minSumSquareDiff(self, nums1, nums2, k1, k2):
-        diff = [abs(a-b) for a, b in zip(nums1, nums2)]
+        diff = [abs(a - b) for a, b in zip(nums1, nums2)]
         k = k1 + k2
 
         if sum(diff) <= k:
             return 0
 
-        left, right = 0, max(diff)
+        diff.sort(reverse=True)
+        diff.append(0)
 
-        while left < right:
-            mid = (left + right) // 2
-            if sum(max(0, d-mid) for d in diff) <= k:
-                right = mid
+        for i in range(len(diff) - 1):
+            need = (i + 1) * (diff[i] - diff[i + 1])
+
+            if k >= need:
+                k -= need
             else:
-                left = mid + 1
+                level = diff[i] - k // (i + 1)
+                rem = k % (i + 1)
 
-        operations = sum(max(0, d-left) for d in diff)
-        ans = sum(min(d, left) ** 2 for d in diff)
-        extra = k - operations
+                return sum(d * d for d in diff[i + 1:]) + (i + 1 - rem) * level * level + rem * (level - 1) * (level - 1)
 
-        return ans - extra * (2 * left - 1)
+        return 0
